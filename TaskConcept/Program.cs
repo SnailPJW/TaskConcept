@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace TaskConcept
 {
@@ -10,16 +11,35 @@ namespace TaskConcept
         {
             var watch = Stopwatch.StartNew();
             Console.WriteLine("開始早餐製作...");
-            平底鍋預熱();
-            烤吐司();
-            煎火腿蛋();
+
+            //平底鍋預熱();
+            //烤吐司();
+            //煎火腿蛋();
+            //抹果醬();
+            //倒咖啡();
+            //吐司夾火腿蛋();
+            //擺盤完成開始吃早餐();
+            //watch.Stop();
+            //Console.WriteLine($"同步烹煮早餐共花費:{watch.Elapsed.Seconds} 秒");
+
+            var 預熱 = Task.Run(() => 平底鍋預熱());
+            var 香烤吐司 = Task.Run(() => 烤吐司());
+
+            預熱.Wait();
+            var 香煎火腿蛋 = Task.Run(() => 煎火腿蛋());
+
+            香烤吐司.Wait();
+
             抹果醬();
             倒咖啡();
+
+            香煎火腿蛋.Wait();
+
             吐司夾火腿蛋();
             擺盤完成開始吃早餐();
             watch.Stop();
+            Console.WriteLine($"非同步烹煮早餐共花費:{watch.Elapsed.Seconds} 秒");
 
-            Console.WriteLine($"同步烹煮早餐共花費:{watch.Elapsed.Seconds} 秒");
             Console.ReadKey();
         }
 
